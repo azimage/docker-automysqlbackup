@@ -35,7 +35,7 @@ Start AutoMySQLBackup:
         --volume /var/lib/automysqlbackup:/var/lib/automysqlbackup \
         -e USERNAME=root
         -e PASSWORD=secret
-        -e DBHOST=mysql
+        -e DBHOST=localhost
         alvistack/docker-automysqlbackup
 
 **Success**. AutoMySQLBackup will now create dumps of all databases from your remote MySQSL into `/var/lib/automysqlbackup` and exit.
@@ -142,7 +142,7 @@ Default: `no`
 
 Additionally keep a copy of the most recent backup in a seperate directory.
 
-Default: `no`
+Default: `yes`
 
 #### MAX\_ALLOWED\_PACKET
 
