@@ -28,14 +28,13 @@ Start AutoMySQLBackup:
 
     # Run as detach
     docker run \
-        -itd \
         --rm \
         --network mysql \
         --name automysqlbackup \
         --volume /var/lib/automysqlbackup:/var/lib/automysqlbackup \
-        -e USERNAME=root \
-        -e PASSWORD=secret \
-        -e DBHOST=localhost \
+        --env USERNAME=root \
+        --env PASSWORD=secret \
+        --env DBHOST=localhost \
         alvistack/docker-automysqlbackup
 
 **Success**. AutoMySQLBackup will now create dumps of all databases from your remote MySQSL into `/var/lib/automysqlbackup` and exit.
