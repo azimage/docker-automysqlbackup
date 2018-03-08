@@ -72,7 +72,7 @@ COMMCOMP=${COMMCOMP:-"no"}
 
 # Additionally keep a copy of the most recent backup in a seperate
 # directory.
-LATEST=${LATEST:-"no"}
+LATEST=${LATEST:-"yes"}
 
 #  The maximum size of the buffer for client/server communication. e.g. 16MB
 #  (maximum is 1GB)
