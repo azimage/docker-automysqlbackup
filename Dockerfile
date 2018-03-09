@@ -39,7 +39,7 @@ ENV ROUTINES           "yes"
 VOLUME $BACKUPDIR
 WORKDIR $BACKUPDIR
 
-CMD [ "/usr/sbin/automysql" ]
+CMD [ "/usr/sbin/automysqlbackup" ]
 
 # Prepare APT depedencies
 RUN set -ex \
@@ -51,8 +51,3 @@ RUN set -ex \
 
 # Copy files
 COPY files /
-
-# Ensure required folders exist with correct owner:group
-RUN set -ex \
-    && mkdir -p $BACKUPDIR \
-    && chown -Rf root:root $BACKUPDIR
