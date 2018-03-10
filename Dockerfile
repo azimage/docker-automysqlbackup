@@ -36,18 +36,27 @@ ENV PREBACKUP          ""
 ENV POSTBACKUP         ""
 ENV ROUTINES           "yes"
 
-VOLUME $BACKUPDIR
+VOLUME  $BACKUPDIR
 WORKDIR $BACKUPDIR
 
-CMD [ "/usr/sbin/automysqlbackup" ]
+ENTRYPOINT [ "/usr/local/bin/dumb-init", "--" ]
+CMD        [ "/usr/sbin/automysqlbackup" ]
 
 # Prepare APT depedencies
 RUN set -ex \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractiev apt-get install -y automysqlbackup \
-    && apt-get -y autoremove \
-    && apt-get -y autoclean \
+    && DEBIAN_FRONTEND=noninteractiev apt-get install -y automysqlbackup curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Install dumb-init
+RUN set -ex \
+    && curl -skL https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 > /usr/local/bin/dumb-init \
+    && chmod 0755 /usr/local/bin/dumb-init
 
 # Copy files
 COPY files /
+
+# Hack PASSWORD with MYSQL_PWD
+# See https://stackoverflow.com/a/24188878
+RUN set -ex \
+    && sed -i 's/\(mysql.*\) --password=\(\$PASSWORD\)/MYSQL_PWD=\2 \1/g' /usr/sbin/automysqlbackup
