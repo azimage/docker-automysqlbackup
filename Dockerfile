@@ -45,7 +45,7 @@ CMD        [ "/usr/sbin/automysqlbackup" ]
 # Prepare APT depedencies
 RUN set -ex \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractiev apt-get install -y automysqlbackup curl \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y automysqlbackup curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install dumb-init
