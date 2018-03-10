@@ -4,7 +4,7 @@ Docker Image Packaging for AutoMySQLBackup
 [![Travis](https://img.shields.io/travis/alvistack/docker-automysqlbackup.svg)](https://travis-ci.org/alvistack/docker-automysqlbackup)
 [![GitHub release](https://img.shields.io/github/release/alvistack/docker-automysqlbackup.svg)](https://github.com/alvistack/docker-automysqlbackup/releases)
 [![GitHub license](https://img.shields.io/github/license/alvistack/docker-automysqlbackup.svg)](https://github.com/alvistack/docker-automysqlbackup/blob/master/LICENSE)
-[![Docker Pulls](https://img.shields.io/docker/pulls/alvistack/docker-automysqlbackup.svg)](https://hub.docker.com/r/alvistack/docker-automysqlbackup/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/alvistack/automysqlbackup.svg)](https://hub.docker.com/r/alvistack/automysqlbackup/)
 
 AutoMySQLBackup with a basic configuration will create Daily, Weekly and Monthly backups of one or more of your MySQL databases from one or more of your MySQL servers.
 
@@ -24,7 +24,7 @@ Volume permission is managed by entry scripts. To get started you can use a data
 Start AutoMySQLBackup:
 
     # Pull latest image
-    docker pull alvistack/docker-automysqlbackup
+    docker pull alvistack/automysqlbackup
 
     # Run as detach
     docker run \
@@ -36,7 +36,7 @@ Start AutoMySQLBackup:
         --env USERNAME=root \
         --env PASSWORD=secret \
         --env DBHOST=mysql \
-        alvistack/docker-automysqlbackup
+        alvistack/automysqlbackup
 
 **Success**. AutoMySQLBackup will now create dumps of all databases from your remote MySQSL into `/var/lib/automysqlbackup` and exit.
 
@@ -177,7 +177,7 @@ Default: `yes`
 Versioning
 ----------
 
-The `latest` tag matches the most recent version of this repository. Thus using `alvistack/docker-automysqlbackup:latest` or `alvistack/docker-automysqlbackup` will ensure you are running the most up to date version of this image.
+The `latest` tag matches the most recent version of this repository. Thus using `alvistack/automysqlbackup:latest` or `alvistack/automysqlbackup` will ensure you are running the most up to date version of this image.
 
 License
 -------
