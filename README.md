@@ -10,6 +10,12 @@ AutoMySQLBackup with a basic configuration will create Daily, Weekly and Monthly
 
 Learn more about AutoMySQLBackup: <https://sourceforge.net/projects/automysqlbackup/>
 
+Supported Tags and Respective `Dockerfile` Links
+------------------------------------------------
+
+-   [`latest` (master/Dockerfile)](https://github.com/alvistack/docker-automysqlbackup/blob/master/Dockerfile)
+-   [`2.6` (2.6/Dockerfile)](https://github.com/alvistack/docker-automysqlbackup/blob/2.6/Dockerfile)
+
 Overview
 --------
 
