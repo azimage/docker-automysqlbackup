@@ -45,7 +45,7 @@ CMD        [ "/usr/sbin/automysqlbackup" ]
 # Prepare APT depedencies
 RUN set -ex \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y automysqlbackup curl \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y automysqlbackup curl patch \
     && rm -rf /var/lib/apt/lists/*
 
 # Install dumb-init
@@ -56,7 +56,6 @@ RUN set -ex \
 # Copy files
 COPY files /
 
-# Hack PASSWORD with MYSQL_PWD
-# See https://stackoverflow.com/a/24188878
+# Apply patches
 RUN set -ex \
-    && sed -i 's/\(mysql.*\) --password=\(\$PASSWORD\)/MYSQL_PWD=\2 \1/g' /usr/sbin/automysqlbackup
+    && patch -d/ -p0 < /docker.patch
