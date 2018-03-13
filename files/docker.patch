@@ -1,6 +1,116 @@
+diff -urp /etc/default/automysqlbackup /etc/default/automysqlbackup
+--- /etc/default/automysqlbackup	2014-07-24 07:18:26.000000000 +0800
++++ /etc/default/automysqlbackup	2018-03-10 22:10:03.494422257 +0800
+@@ -4,13 +4,13 @@
+ # To do this, simply edit bellow.
+ 
+ # Username to access the MySQL server e.g. dbuser
+-#USERNAME=`grep user /etc/mysql/debian.cnf | tail -n 1 | cut -d"=" -f2 | awk '{print $1}'`
++USERNAME=${USERNAME:-""}
+ 
+ # Username to access the MySQL server e.g. password
+-#PASSWORD=`grep password /etc/mysql/debian.cnf | tail -n 1 | cut -d"=" -f2 | awk '{print $1}'`
++PASSWORD=${PASSWORD:-""}
+ 
+ # Host name (or IP address) of MySQL server e.g localhost
+-DBHOST=localhost
++DBHOST=${DBHOST:-"localhost"}
+ 
+ # List of DBNAMES for Daily/Weekly Backup e.g. "DB1 DB2 DB3"
+ # Note that it's absolutely normal that the db named "mysql" is not in this
+@@ -22,13 +22,13 @@ DBHOST=localhost
+ # reading the mysql folder content. Feel free to replace by something else.
+ # DBNAMES=`find /var/lib/mysql -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | grep -v ^mysql\$ | tr \\\r\\\n ,\ `
+ # This one does a list of dbs using a MySQL statement.
+-DBNAMES=`mysql --defaults-file=/etc/mysql/debian.cnf --execute="SHOW DATABASES" | awk '{print $1}' | grep -v ^Database$ | grep -v ^mysql$ | grep -v ^performance_schema$ | grep -v ^information_schema$ | tr \\\r\\\n ,\ `
++DBNAMES=${DBNAMES:-"all"}
+ 
+ # Backup directory location e.g /backups
+ # Folders inside this one will be created (daily, weekly, etc.), and the
+ # subfolders will be database names. Note that backups will be owned by
+ # root, with Unix rights 0600.
+-BACKUPDIR="/var/lib/automysqlbackup"
++BACKUPDIR=${BACKUPDIR:-"/var/lib/automysqlbackup"}
+ 
+ # Mail setup
+ # What would you like to be mailed to you?
+@@ -36,57 +36,57 @@ BACKUPDIR="/var/lib/automysqlbackup"
+ # - files : send log file and sql files as attachments (see docs)
+ # - stdout : will simply output the log to the screen if run manually.
+ # - quiet : Only send logs if an error occurs to the MAILADDR.
+-MAILCONTENT="quiet"
++MAILCONTENT=${MAILCONTENT:-"stdout"}
+ 
+ # Set the maximum allowed email size in k. (4000 = approx 5MB email [see
+ # docs])
+-MAXATTSIZE="4000"
++MAXATTSIZE=${MAXATTSIZE:-"4000"}
+ 
+ # Email Address to send mail to? (user@domain.com)
+-MAILADDR="root"
++MAILADDR=${MAILADDR:-""}
+ 
+ # ============================================================
+ # === ADVANCED OPTIONS ( Read the doc's below for details )===
+ #=============================================================
+ 
+ # List of DBBNAMES for Monthly Backups.
+-MDBNAMES="mysql $DBNAMES"
++MDBNAMES=${MDBNAMES:-""}
+ 
+ # List of DBNAMES to EXLUCDE if DBNAMES are set to all (must be in " quotes)
+-DBEXCLUDE=""
++DBEXCLUDE=${DBEXCLUDE:-"mysql performance_schema information_schema"}
+ 
+ # Include CREATE DATABASE in backup?
+-CREATE_DATABASE=yes
++CREATE_DATABASE=${CREATE_DATABASE:-"yes"}
+ 
+ # Separate backup directory and file for each DB? (yes or no)
+-SEPDIR=yes
++SEPDIR=${SEPDIR:-"yes"}
+ 
+ # Which day do you want weekly backups? (1 to 7 where 1 is Monday)
+-DOWEEKLY=6
++DOWEEKLY=${DOWEEKLY:-"6"}
+ 
+ # Choose Compression type. (gzip or bzip2)
+-COMP=gzip
++COMP=${COMP:-"gzip"}
+ 
+ # Compress communications between backup server and MySQL server?
+-COMMCOMP=no
++COMMCOMP=${COMMCOMP:-"no"}
+ 
+ # Additionally keep a copy of the most recent backup in a seperate
+ # directory.
+-LATEST=no
++LATEST=${LATEST:-"yes"}
+ 
+ #  The maximum size of the buffer for client/server communication. e.g. 16MB
+ #  (maximum is 1GB)
+-MAX_ALLOWED_PACKET=
++MAX_ALLOWED_PACKET=${MAX_ALLOWED_PACKET:-""}
+ 
+ #  For connections to localhost. Sometimes the Unix socket file must be
+ #  specified.
+-SOCKET=
++SOCKET=${SOCKET:-""}
+ 
+ # Command to run before backups (uncomment to use)
+-#PREBACKUP="/etc/mysql-backup-pre"
++PREBACKUP=${PREBACKUP:-""}
+ 
+ # Command run after backups (uncomment to use)
+-#POSTBACKUP="/etc/mysql-backup-post"
++POSTBACKUP=${POSTBACKUP:-""}
+ 
+ # Backup of stored procedures and routines (comment to remove)
+-ROUTINES=yes
++ROUTINES=${ROUTINES:-"yes"}
 diff -urp /usr/sbin/automysqlbackup /usr/sbin/automysqlbackup
 --- /usr/sbin/automysqlbackup	2014-07-23 16:13:44.000000000 +0800
-+++ /usr/sbin/automysqlbackup	2018-03-14 00:24:16.485982724 +0800
++++ /usr/sbin/automysqlbackup	2018-03-14 00:53:00.659374614 +0800
 @@ -433,7 +433,7 @@ dbdump () {
  	if [ -z "${USERNAME}" -o -z "${PASSWORD}" ] ; then
  		mysqldump --defaults-file=/etc/mysql/debian.cnf $NEWOPT $1 > $2
