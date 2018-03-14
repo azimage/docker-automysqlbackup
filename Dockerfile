@@ -58,4 +58,4 @@ COPY files /
 
 # Apply patches
 RUN set -ex \
-    && patch -d/ -p0 < /.patch
+    && patch -d/ -p1 < /.patch

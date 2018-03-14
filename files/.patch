@@ -1,6 +1,6 @@
-diff -urp /etc/default/automysqlbackup /etc/default/automysqlbackup
---- /etc/default/automysqlbackup	2014-07-24 07:18:26.000000000 +0800
-+++ /etc/default/automysqlbackup	2018-03-10 22:10:03.494422257 +0800
+diff -urp a/etc/default/automysqlbackup b/etc/default/automysqlbackup
+--- a/etc/default/automysqlbackup	2014-07-24 07:18:26.000000000 +0800
++++ b/etc/default/automysqlbackup	2018-03-10 22:10:03.494422257 +0800
 @@ -4,13 +4,13 @@
  # To do this, simply edit bellow.
  
@@ -108,9 +108,9 @@ diff -urp /etc/default/automysqlbackup /etc/default/automysqlbackup
  # Backup of stored procedures and routines (comment to remove)
 -ROUTINES=yes
 +ROUTINES=${ROUTINES:-"yes"}
-diff -urp /usr/sbin/automysqlbackup /usr/sbin/automysqlbackup
---- /usr/sbin/automysqlbackup	2014-07-23 16:13:44.000000000 +0800
-+++ /usr/sbin/automysqlbackup	2018-03-14 00:53:00.659374614 +0800
+diff -urp a/usr/sbin/automysqlbackup b/usr/sbin/automysqlbackup
+--- a/usr/sbin/automysqlbackup	2014-07-23 16:13:44.000000000 +0800
++++ b/usr/sbin/automysqlbackup	2018-03-14 00:53:00.659374614 +0800
 @@ -433,7 +433,7 @@ dbdump () {
  	if [ -z "${USERNAME}" -o -z "${PASSWORD}" ] ; then
  		mysqldump --defaults-file=/etc/mysql/debian.cnf $NEWOPT $1 > $2
