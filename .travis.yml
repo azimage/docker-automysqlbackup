@@ -16,19 +16,11 @@ script:
   - ~/official-images/test/run.sh "$IMAGE"
 
 after_success:
-  - set -ex
   - |
-    TAGS=""
-    if [[ $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
-      read -a v <<< $(echo ${TRAVIS_TAG} | sed 's/[\.\-]/ /g')
-      TAGS="$TRAVIS_TAG ${v[0]}.${v[1]}.${v[2]} ${v[0]}.${v[1]} ${v[0]}"
-    elif [[ $TRAVIS_BRANCH =~ master ]]; then
-      TAGS="latest"
+    if [[ $TRAVIS_BRANCH =~ master ]]; then
+      docker tag "$IMAGE" "$IMAGE":"latest"
+      docker push "$IMAGE":"latest"
     elif [[ $TRAVIS_BRANCH =~ ^[0-9]+\. ]]; then
-      TAGS="$TRAVIS_BRANCH"
+      docker tag "$IMAGE" "$IMAGE":"$TRAVIS_BRANCH"
+      docker push "$IMAGE":"$TRAVIS_BRANCH"
     fi
-  - |
-    for TAG in $TAGS; do
-      docker tag "$IMAGE" "$IMAGE":"$TAG"
-      docker push "$IMAGE":"$TAG"
-    done
