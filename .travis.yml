@@ -20,7 +20,7 @@ after_success:
     if [[ $TRAVIS_BRANCH =~ master ]]; then
       docker tag "$IMAGE" "$IMAGE":"latest"
       docker push "$IMAGE":"latest"
-    elif [[ $TRAVIS_BRANCH =~ ^[0-9.]+ ]]; then
+    elif [[ $TRAVIS_BRANCH =~ ^[0-9.]+$ ]]; then
       docker tag "$IMAGE" "$IMAGE":"$TRAVIS_BRANCH"
       docker push "$IMAGE":"$TRAVIS_BRANCH"
     fi
