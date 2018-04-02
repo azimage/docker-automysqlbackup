@@ -39,8 +39,8 @@ ENV ROUTINES           "yes"
 VOLUME  $BACKUPDIR
 WORKDIR $BACKUPDIR
 
-ENTRYPOINT [ "/usr/local/bin/dumb-init", "--" ]
-CMD        [ "/usr/sbin/automysqlbackup" ]
+ENTRYPOINT [ "dumb-init", "--" ]
+CMD        [ "automysqlbackup" ]
 
 # Prepare APT depedencies
 RUN set -ex \
